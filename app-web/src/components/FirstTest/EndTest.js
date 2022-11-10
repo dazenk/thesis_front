@@ -28,7 +28,7 @@ const EndTest = () => {
 
     const getResults = async () => {
         if (saved) return
-        let url = 'http://127.0.0.1:8000/calculate_face_test';
+        let url = 'https://get-test-results.herokuapp.com/calculate_face_test';
 
         try {            
             let {data, status} = await axios.post(url, {
