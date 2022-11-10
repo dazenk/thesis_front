@@ -7,12 +7,9 @@ import { useNavigate } from 'react-router-dom';
 const Results = () => {
 
     const {
-        hitCount,
-        errorCount,
-        ici,
-        totalTimeT2,
-        userTest,
-        user
+        user,
+        dataSpan,
+        dataCaras
     } = useContext(ScreenContext);
 
     const [selectValue, setSelectValue] = useState("todas");
@@ -189,7 +186,6 @@ const Results = () => {
                         <label htmlFor="results-1">Elige una edad:</label>
                         <select className={styles.dropdownOption} id="results-1" name="results-1" value={selectValue} onChange={async (evt) => {
                             setSelectValue(evt.target.value)
-                            /* let data = await getUserResults(user.email, parseInt(evt.target.value), typeTest); */
                             let age = evt.target.value;
                             let data 
                             if (isNaN(age)) {
@@ -234,8 +230,8 @@ const Results = () => {
                             if (evt.target.value == "caras") setAverageData(getAverage(data))
                             if (evt.target.value == "span") setAverageDataSpan(getAverageSpan(data))
                         }}>
-                            <option value="caras">Test Caras</option>
-                            <option value="span">Test Span</option>
+                            {dataCaras != undefined && <option value="caras">Test Caras</option>}
+                            {dataSpan != undefined && <option value="span">Test Span</option>}
                         </select>
                     </div>
                 </div>                
@@ -360,14 +356,14 @@ const Results = () => {
                                         <p><span>{getResultsByValueSpan(averageDataSpan.RE)}: </span>{getAnalysisSpan(averageDataSpan.RE)}</p>
                                     </div>
                                     <div className={styles.containerHitSpan}>
-                                        <h4>RImse</h4>
+                                        <h4>Secuencia de estímulos</h4>
                                         <p>La cantidad de secuencia de estímulos promedio del último ítem que pudieron recordar los alumnos
                                             de manera perfecta fue de <span>{averageDataSpan.rimse}</span>,
                                             obteniendo un puntaje <span>{getResultsRimseByValue(averageDataSpan.rimse)}</span>
                                         </p>
                                     </div>
                                     <div className={styles.containerHitSpan}>
-                                        <h4>RImsr</h4>
+                                        <h4>Secuencia de respuestas</h4>
                                         <p>La cantidad de secuencia de respuestas promedio del último ítem que lograron recordar los alumnos
                                             de manera perfecta fue de <span>{averageDataSpan.rimsr}</span>
                                         </p>

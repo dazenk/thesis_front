@@ -1,4 +1,4 @@
-import { collection, addDoc, updateDoc, arrayUnion, doc, setDoc, getDoc } from "firebase/firestore";
+import { updateDoc, arrayUnion, doc, setDoc, getDoc } from "firebase/firestore";
 import {db} from '../firebase';
    
     export const AddResult = async (idCollection ,valueCollection) => {        
@@ -10,7 +10,7 @@ import {db} from '../firebase';
                 results: arrayUnion(valueCollection)
             });
 
-            console.log("Document written with ID: ", userCollection.id);
+            /* console.log("Document written with ID: ", userCollection.id); */
           } catch (e) {
             console.error("Error adding document: ", e);
           }
@@ -31,12 +31,22 @@ import {db} from '../firebase';
         let currentDatabase = database ? database == "caras" ? "users" : "users_span" : "users";
         const docRef = doc(db, currentDatabase, email);
         const docSnap = await getDoc(docRef);
-        let { results } = docSnap.data();
-        let answer = results;
-        if (age && typeof age == "number") {
-            answer = answer.filter(r => r.studentData.age == age);
+        /* console.log(docSnap.data()) */
+        if (docSnap.data() != undefined) {
+            let { results } = docSnap.data();
+            let answer = results;
+            if (age && typeof age == "number") {
+                answer = answer.filter(r => r.studentData.age == age);
+            }
+            return answer;
         }
-        return answer;
+        /* let { results } = docSnap.data(); */
+        /* let answer = results; */
+        /* if (age && typeof age == "number") {
+            answer = answer.filter(r => r.studentData.age == age);
+        } */
+        /* return answer; */
+        return [];
     }
 
     export const AddResult2 = async (idCollection ,valueCollection) => {        
@@ -48,7 +58,7 @@ import {db} from '../firebase';
                 results: arrayUnion(valueCollection)
             });
 
-            console.log("Document written with ID: ", userCollection.id);
+            /* console.log("Document written with ID: ", userCollection.id); */
           } catch (e) {
             console.error("Error adding document: ", e);
           }

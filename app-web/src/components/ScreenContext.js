@@ -1,15 +1,13 @@
 import { createContext, useState, useEffect } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail  } from "firebase/auth";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
 import {auth} from "../firebase";
+import spanImg from "../img/span_img/img_span";
 
 const ScreenContext = createContext();
 
 const ScreenProvider = ({children}) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const [data, setData] = useState([]);
 
   const signup = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -32,7 +30,7 @@ const ScreenProvider = ({children}) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser);
+      /* console.log(currentUser); */
       setUser(currentUser);
       setLoading(false);
     });
@@ -40,32 +38,8 @@ const ScreenProvider = ({children}) => {
     return () => unsubscribe();
   }, []);
 
-  /* useEffect(() => {
-    const querydb = getFirestore();
-    const queryCollection = collection(querydb, 'img-face');
-    getDocs(queryCollection)
-        .then(res => setData(res.docs.map(img => ({id: img.id, ...img.data()}))));        
-  }, []); */
-
-
-    const [correctTree, setCorrectTree] = useState([]);
-    const [wrongTree1, setWrongTree1] = useState([]);
-    const [wrongTree2, setWrongTree2] = useState([]);
-    const [wrongTree3, setWrongTree3] = useState([]);
-    const [wrongTree4, setWrongTree4] = useState([]);
-    const [wrongTree5, setWrongTree5] = useState([]);
-    const [wrongTree6, setWrongTree6] = useState([]);
-    const [wrongTree7, setWrongTree7] = useState([]);
-    const [wrongTree8, setWrongTree8] = useState([]);
-    const [wrongTree9, setWrongTree9] = useState([]);
-    const [corrects, setCorrects] = useState(0);
-    const [commission, setCommission] = useState(0);
-    const [inaccuracies, setInaccuracies] = useState(0);
-    const [omission, setOmission] = useState(112);
-    const [total, setTotal] = useState(0);
-    const [totalTime, setTotalTime] = useState(0);
-    const [stopTimer, setStopTimer] = useState(false);
-    const [currentPage, setCurrentPage] = useState(0);
+    const [dataCaras, setDataCaras] = useState(undefined);
+    const [dataSpan, setDataSpan] = useState(undefined);
 
     const [hitCount, setHitCount] = useState(0);
     const [errorCount, setErrorCount] = useState(0);
@@ -80,6 +54,7 @@ const ScreenProvider = ({children}) => {
       nombre: '',
       edad: '',
     });
+
     const [ageInMonths, setAgeInMonths] = useState(0);
     const [ageNormal, setAgeNormal] = useState(0);
 
@@ -90,83 +65,36 @@ const ScreenProvider = ({children}) => {
       item: 0
     });
 
-    const [answerCorrect, setAnswerCorrect] = useState(['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty']);
-    const [answerCorrect2, setAnswerCorrect2] = useState(['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty']);
-    const [answerCorrect3, setAnswerCorrect3] = useState(['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty']);
-    const [answerCorrect4, setAnswerCorrect4] = useState(['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty']);
-    const [answerCorrect5, setAnswerCorrect5] = useState(['empty', 'empty', 'empty', 'empty', 'empty']);
-    const [timeTest, setTimeTest] = useState(120);
-
-    let interval;
-    let globalArray = [];
-    let totalNumbers = 44;
-    let maxNumbers = 144;
-    let remove = 0;
-    let index = 0;
-
-    const fillRandom = (array) => {
-        let r = Math.floor(Math.random() * maxNumbers);
-        if (!array.some(function(e){return e === r})) {
-          array.push(r);
-        }
-    };
-
-    const fillArray = (tree, quantity, remove, index) => {
-        for (let i = 0; i < quantity; i++) {      
-          remove = globalArray[Math.floor(Math.random() * globalArray.length)];
-          index = globalArray.indexOf(remove);
-          tree.push(remove);
-          globalArray.splice(index, 1);
-        }
-        return tree;
-    };
-
-    const onClickButton = () => {
-        while (globalArray.length < totalNumbers && totalNumbers < maxNumbers) {            
-            fillRandom(globalArray);
-        }
-        setCorrectTree(fillArray(correctTree, 14, remove, index));
-        setWrongTree1(fillArray(wrongTree1, 3, remove, index));
-        setWrongTree2(fillArray(wrongTree2, 3, remove, index));
-        setWrongTree3(fillArray(wrongTree3, 4, remove, index));
-        setWrongTree4(fillArray(wrongTree4, 4, remove, index));
-        setWrongTree5(fillArray(wrongTree5, 2, remove, index));
-        setWrongTree6(fillArray(wrongTree6, 3, remove, index));
-        setWrongTree7(fillArray(wrongTree7, 4, remove, index));
-        setWrongTree8(fillArray(wrongTree8, 3, remove, index));
-        setWrongTree9(fillArray(wrongTree9, 4, remove, index));
-    };
-
     const linkImage = {
-      arcoiris: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/arcoiris.png?alt=media&token=53771c44-c760-48aa-8771-5c4a45f8bed7',
-      balde: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/balde.png?alt=media&token=c444f117-3310-4eda-a71e-278d3e9fe1d1',
-      calcetin: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/calcetines.png?alt=media&token=ffae029e-47e7-4bf8-abdd-0d422b874120',
-      campana: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/campana.png?alt=media&token=5646f5b9-1246-416a-a193-f6f7ae102c3e',
-      chaleco: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/chaleco.png?alt=media&token=655b3914-6aa4-4ff8-9e5c-deb0bcba83ff',
-      cometa: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/cometa.png?alt=media&token=bd86e778-c956-4901-aec5-620ab04c292f',
-      corazon: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/corazon.png?alt=media&token=4de7b666-eefb-4182-86c1-8a6c5d42bbe2',
-      cubo: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/cubo.png?alt=media&token=57563c38-4069-4918-b085-f491b8012034',
-      estrella: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/estrella.png?alt=media&token=94c19f80-108b-4276-9b4f-e03b3d0aa99a',
-      flor: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/flor.png?alt=media&token=ceafe308-7387-45fd-971a-b2c52d5b47d5',
-      globo: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/globo.png?alt=media&token=89e15aac-7353-4ad5-b550-dc8958d515f2',
-      hoja: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/hoja.png?alt=media&token=88b554bf-c0a9-4f27-be3b-9a1be7608f9a',
-      libro: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/libro.png?alt=media&token=0f67ad3d-56f8-498a-b786-3453fe110684',
-      llanta: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/llanta.png?alt=media&token=3e2e965f-d97c-47a1-9138-40101b185550',
-      manzana: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/manzana.png?alt=media&token=9a810a1a-4ff2-4004-af66-44eac464b765',
-      mariquita: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/mariquita.png?alt=media&token=4241fa0a-c104-4a96-9f59-24a6da5ded7e',
-      pastel: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/pastel.png?alt=media&token=5b3e1017-98b3-41b8-8cf0-aacaca474237',
-      pato: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/pato.png?alt=media&token=e75ba281-0ebd-4898-8d73-5775fb815fbc',
-      planeta: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/planeta.png?alt=media&token=c1a85fa3-c81a-49ca-af77-eb6dc448c9d5',
-      regalo: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/regalo.png?alt=media&token=f168ece1-1423-477d-9ee0-94bc6027f205',
-      reloj_arena: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/reloj_arena.png?alt=media&token=ff86f5b1-8286-4d44-bbc2-75289cb1c50e',
-      reloj: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/reloj.png?alt=media&token=1568a8e4-b796-4fa6-98f0-6cbced1a9ebd',
-      silla: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/silla.png?alt=media&token=206e7dcd-51eb-4dc1-b33b-73ab09dffe30',
-      sol: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/sol.png?alt=media&token=7e9d3616-5537-4b13-8505-54e3901e5de1',
-      sombrero: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/sombrero.png?alt=media&token=df452b49-1f4b-40af-aee2-7f6771d4deec',
-      tambor: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/tambor.png?alt=media&token=5b5e824a-4457-418e-9232-a3332b162213',
-      taza: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/taza.png?alt=media&token=f14c0431-95be-46bd-8c27-21dcf83ad5f0',
-      tenis: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/tenis.png?alt=media&token=1a3e873f-b82a-493f-9682-266e393bd98c',
-      trebol: 'https://firebasestorage.googleapis.com/v0/b/prueba-tesis-8e65c.appspot.com/o/trebol.png?alt=media&token=6fd0b93a-6f7d-4f4b-aa9f-2e95dd525de6'
+      arcoiris: spanImg[0].img,
+      balde: spanImg[1].img,
+      calcetin: spanImg[2].img,
+      campana: spanImg[3].img,
+      chaleco: spanImg[4].img,
+      cometa: spanImg[5].img,
+      corazon: spanImg[6].img,
+      cubo: spanImg[7].img,
+      estrella: spanImg[8].img,
+      flor: spanImg[9].img,
+      globo: spanImg[10].img,
+      hoja: spanImg[11].img,
+      libro: spanImg[12].img,
+      llanta: spanImg[13].img,
+      manzana: spanImg[14].img,
+      mariquita: spanImg[15].img,
+      pastel: spanImg[16].img,
+      pato: spanImg[17].img,
+      planeta: spanImg[18].img,
+      regalo: spanImg[19].img,
+      reloj_arena: spanImg[20].img,
+      reloj: spanImg[21].img,
+      silla: spanImg[22].img,
+      sol: spanImg[23].img,
+      sombrero: spanImg[24].img,
+      tambor: spanImg[25].img,
+      taza: spanImg[26].img,
+      tenis: spanImg[27].img,
+      trebol: spanImg[28].img
     }
 
     const imgSpan = [
@@ -334,44 +262,6 @@ const ScreenProvider = ({children}) => {
         setUserTest,
         userTest2,
         setUserTest2,
-        correctTree,
-        setCorrectTree,
-        wrongTree1,
-        setWrongTree1,
-        wrongTree2,
-        setWrongTree2,
-        wrongTree3,
-        setWrongTree3,
-        wrongTree4,
-        setWrongTree4,
-        wrongTree5,
-        setWrongTree5,
-        wrongTree6,
-        setWrongTree6,
-        wrongTree7,
-        setWrongTree7,
-        wrongTree8,
-        setWrongTree8,
-        wrongTree9,
-        setWrongTree9,
-        onClickButton,
-        corrects,
-        setCorrects,
-        commission,
-        setCommission,
-        inaccuracies,
-        setInaccuracies,
-        omission,
-        setOmission,
-        total,
-        setTotal,
-        totalTime,
-        setTotalTime,
-        stopTimer,
-        setStopTimer,
-        interval,
-        currentPage,
-        setCurrentPage,
         hitCount,
         setHitCount,
         errorCount,
@@ -380,18 +270,6 @@ const ScreenProvider = ({children}) => {
         setTotalCount,
         ici,
         setIci,
-        answerCorrect,
-        setAnswerCorrect,
-        answerCorrect2,
-        setAnswerCorrect2,
-        answerCorrect3,
-        setAnswerCorrect3,
-        answerCorrect4,
-        setAnswerCorrect4,
-        answerCorrect5,
-        setAnswerCorrect5,
-        timeTest,
-        setTimeTest,
         totalTimeT2,
         setTotalTimeT2,
         imgSpan,
@@ -402,7 +280,11 @@ const ScreenProvider = ({children}) => {
         ageNormal,
         setAgeNormal,
         processPoints,
-        setProcessPoints
+        setProcessPoints,
+        dataCaras,
+        setDataCaras,
+        dataSpan,
+        setDataSpan
     };
 
     return <ScreenContext.Provider

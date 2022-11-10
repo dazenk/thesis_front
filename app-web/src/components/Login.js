@@ -12,7 +12,7 @@ const Login = () => {
     });
     const [error, setError] = useState("");
 
-    const {login, loginWithGoogle, resetPassword} = useContext(ScreenContext);
+    const {login, resetPassword} = useContext(ScreenContext);
     const navigate = useNavigate();
 
     const handleChange = ({target: {name, value}}) => {
@@ -29,15 +29,6 @@ const Login = () => {
             setError(error.message);
         }
     };
-
-    /* const handleGoogleSignin = async () => {
-        try {
-            await loginWithGoogle();
-            navigate("/");   
-        } catch (error) {
-            setError(error.message);
-        }        
-    }; */
 
     const handleResetPassword = async () => {
         if (!user.email) return setError("¡Por favor ingresa tu correo!");
@@ -76,8 +67,6 @@ const Login = () => {
                     <p>¿Aún no tienes una cuenta?</p>
                     <Link to="/register">Registrarse</Link>
                 </div>
-
-                {/* <button onClick={handleGoogleSignin} className={styles.buttonGoogle}>Iniciar sesión con Google</button> */}
             </div>
         </div>
     );
