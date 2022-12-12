@@ -28,7 +28,7 @@ const EndTest = () => {
 
     const getResults = async () => {
         if (saved) return
-        let url = 'https://get-test-results.herokuapp.com/calculate_face_test';
+        let url = 'https://lionfish-app-nlmgs.ondigitalocean.app/calculate_face_test';
 
         try {            
             let {data, status} = await axios.post(url, {
