@@ -5,13 +5,25 @@ import { useNavigate } from 'react-router-dom';
 
 const SpanTestTwo = () => {
 
+    // Arreglo que guarda el orden y las imágenes de los ítems de estímulo para el test de span de imágenes
     const question = [];
+
+    // Arreglo que guarda el orden y las imágenes de los ítems de respuesta para el test de span de imágenes
     const answer = [];
+
+    // Arreglo que guarda letras del abecedario para mostrarlas en la parte inferior de las imágenes de los ítems de respuesta
     const abc = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
 
+    // Estado que se usa para guardar la posición de la imagen que seleccionó el alumnos
     const [contador, setContador] = useState(0);
+
+    // Estado que se encarga de guardar el índice que corresponde al item que se está mostrando en pantalla
     const [testImage, setTestImage] = useState(6);
+
+    // Estado que va guardando las respuestas (imágenes) que ha seleccionado el alumno
     const [listaCorrecta, setListaCorrecta] = useState([]);
+
+    // Arreglo de objetos que guarda la respectiva secuencia de estímulos y respuestas que corresponde a cada ítem
     const pPoints = [
         {rimse: 2, rimsr: 4},
         {rimse: 2, rimsr: 4},
@@ -37,6 +49,8 @@ const SpanTestTwo = () => {
         {rimse: 7, rimsr: 12},
         {rimse: 8, rimsr: 12},
     ]
+
+    // Arreglo de arreglos que guarda el orden correcto en que tienen que ser seleccionadas las respuestas por el alumno
     const correctList = [
         ['item-3', 'item-4'],
         ['item-2', 'item-1'],
@@ -62,19 +76,28 @@ const SpanTestTwo = () => {
         ['item-8', 'item-2', 'item-12', 'item-7', 'item-3', 'item-5', 'item-10'],
         ['item-7', 'item-1', 'item-11', 'item-3', 'item-6', 'item-4', 'item-9', 'item-2'],
     ];
+
+    // Estado que guarda el tiempo de aparicicón de los ítems de estímulo en pantalla
     const [timeQuestion, setTimeQuestion] = useState(0);
+
+    // Estado que guarda el tiempo de aparicicón de los ítems de pregunta en pantalla
     const [timeAnswer, setTimeAnswer] = useState(0);
+
+    // Estado que maneja si se están mostrando los ítems de pregunta o los ítems de respuesta
     const [viewChange, setViewChange] = useState(false);
 
+    //Estados que controlan que no se pueda seleccionar más de una opción para la primera parte del test de span de imágenes
     const [testItem, setTestItem] = useState([]);
     const [testInput, setTestInput] = useState([]);
 
+    // Estado que controla si ya se seleccionó la imagen de respuesta correcta
     const [clickedTwo, setClickedTwo] = useState(false);
     const incluido = [];
     var puntua = false;
 
     const navigate = useNavigate();
 
+    // Trae los datos desde "ScreenContext" que se requieren para este archivo
     const {
         imgSpan,
         points,
@@ -83,19 +106,19 @@ const SpanTestTwo = () => {
         setProcessPoints
     } = useContext(ScreenContext);
 
-    // Llenar arreglo de preguntas
+    // Llena arreglo de items de estímulos
     imgSpan.map((it, ind) => {
         question.push(it.img_question)
         return 0
     });
 
-    // Llenar arreglo de respuestas
+    // Llenar arreglo de ítems de respuestas
     imgSpan.map((it, ind) => {
         answer.push(it.img_answer)
         return 0
     });    
     
-    // Tiempo pregunta
+    // Controla el tiempo de aparición de los ítems de estímulos
     useEffect(() => {
         const interval = setInterval(() => {
           setTimeQuestion((oldValue) => {
@@ -114,7 +137,7 @@ const SpanTestTwo = () => {
         };
     }, [viewChange]);
 
-    // Tiempo respuesta
+    // Controla el tiempo de aparición de los ítems de respuestas
     useEffect(() => {
         const interval = setInterval(() => {
             setTimeAnswer((oldValue) => {
@@ -134,7 +157,7 @@ const SpanTestTwo = () => {
           };
     }, [viewChange]);
 
-    // Ocultar pregunta, mostrar opciones de respuesta
+    // Oculta los ítems de estímulos y muestra los ítems de respuestas correspondientes
     useEffect(() => {
         if (timeQuestion == 6) {
             const question = document.getElementById('question');
@@ -145,7 +168,7 @@ const SpanTestTwo = () => {
         }        
     }, [timeQuestion])
 
-    // Ocultar opciones de respuesta, mostrar pregunta
+    // Oculta los ítems de respuestas y muestra los ítems de estímulos correspondientes
     useEffect(() => {
         if (JSON.stringify(correctList[contador]) === JSON.stringify(listaCorrecta)) {
             setProcessPoints({...processPoints, ['rimse']: pPoints[contador].rimse, ['rimsr']: pPoints[contador].rimsr, ['item']: (contador+4)});
@@ -181,14 +204,14 @@ const SpanTestTwo = () => {
         }
     }, [timeAnswer])
 
-    // Navegar hacia la otra parte del test
+    // Navegar a la pantalla de resultados del test de span de imágenes
     useEffect(() => {
         if (testImage == 29) {
             navigate("/SpanTestEnd", { replace: true });
         }
     }, [testImage])
 
-    // Clic para puntuar
+    // Función que controla la puntución que va obteniendo el alumno a través de sus clics
     const handleClick = (idItem, idInput) => {
         setTestItem([...testItem, idItem]);
         setTestInput([...testInput, idInput]);
@@ -197,6 +220,7 @@ const SpanTestTwo = () => {
         input.disabled = true;
     };
 
+    // Muestra como tal la pantalla de la segunda parte de la prueba del test de span de imágenes
     return (
         <div className={styles.containerSpan}>
             <div className={styles.containerImgs2}>

@@ -5,6 +5,7 @@ import ScreenContext from '../ScreenContext';
 
 const SpanTestInsThree = () => {
 
+    // Trae los datos desde "ScreenContext" que se requieren para este archivo
     const {
         userTest2,
         setUserTest2,
@@ -15,11 +16,13 @@ const SpanTestInsThree = () => {
 
     const navigate = useNavigate();
 
+    // Función que obtiene la edad en años del alumno y manda llamar la que calcula la edad en meses
     const getAge = () => {
         let [year, month, day] = userTest2.edad.split('-');
         setAgeInMonths(calculateAgeInMonths(new Date(year, month, day)));
     }
     
+    // Función que calcula la edad en meses del alumno
     const calculateAgeInMonths = (birthDate) => {
         var today = new Date();
         var age = today.getFullYear() - birthDate.getFullYear();
@@ -30,6 +33,7 @@ const SpanTestInsThree = () => {
         return age;
     }    
 
+    // Función que valida si el alumno tiene entre 6 a 16 años de edad
     const handleSubmit = (e) => {
         e.preventDefault();
         if (ageInMonths >= 71 && ageInMonths <= 204) {
@@ -39,10 +43,12 @@ const SpanTestInsThree = () => {
         }
     };
 
+    // Función que detecta los cambios en los inputs del formulario para el nombre y la edad del alumno
     const handleChange = ({target: {name, value}}) => {
         setUserTest2({...userTest2, [name]: value});   
     };
 
+    // Muestra como tal la segunda pantalla de la primera parte de instrucciones del test de span de imágenes
     return(
         <div className={styles.containerSpan}>
             <div className={styles.titleInsSpan}>

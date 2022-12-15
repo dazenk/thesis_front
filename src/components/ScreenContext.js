@@ -6,31 +6,39 @@ import spanImg from "../img/span_img/img_span";
 const ScreenContext = createContext();
 
 const ScreenProvider = ({children}) => {
+  // Estado que almacena el usuario que ingresa a la aplicación web
   const [user, setUser] = useState(null);
+
+  // Estado que guarda si el usuario ha cerrado sesión o no
   const [loading, setLoading] = useState(true);
 
+  // Función que permite crear un usuario en firebase
   const signup = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
+  // Función que se encarga de iniciar sesión con el usuario creado en firebase
   const login = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  // Función para cerrar sesión del usuario
   const logout = () => {return signOut(auth)};
 
+  // Función para iniciar sesión con Google (falta completar)
   const loginWithGoogle = () => {
     const googleProvider = new GoogleAuthProvider();
     return signInWithPopup(auth, googleProvider);
   };
 
+  // Función que se encarga de restablecer la contraseña del usuario en firebase
   const resetPassword = (email) => {
     return sendPasswordResetEmail(auth, email);
   };
 
+  // Se encarga de mantener la sesión del usuario activa
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      /* console.log(currentUser); */
       setUser(currentUser);
       setLoading(false);
     });
@@ -38,33 +46,56 @@ const ScreenProvider = ({children}) => {
     return () => unsubscribe();
   }, []);
 
+    // Estado que guarda los datos del test de percepción de diferencias
     const [dataCaras, setDataCaras] = useState(undefined);
+
+    // Estado que guarda los datos del test de span de imágenes
     const [dataSpan, setDataSpan] = useState(undefined);
 
+    // Estado que almacena los aciertos del test de percepción de diferencias
     const [hitCount, setHitCount] = useState(0);
+
+    // Estado que almacena los errores del test de percepción de diferencias
     const [errorCount, setErrorCount] = useState(0);
+
+    // Estado que almacena el índice de control de impulsividad del test de percepción de diferencias
     const [ici, setIci] = useState(0);
+
+    // Estado que almacena el total de respuestas del test de percepción de diferencias
     const [totalCount, setTotalCount] = useState(0);
+
+    // Estado que maneja el tiempo de la prueba de percepción de diferencias
     const [totalTimeT2, setTotalTimeT2] = useState(180);
+
+    // Estado que almacena el nombre y la edad del alumno para el test de percepción de diferencias
     const [userTest, setUserTest] = useState({
       nombre: '',
       edad: '',
     });
+
+    // Estado que almacena el nombre y la edad del alumno para el test de span de imágenes
     const [userTest2, setUserTest2] = useState({
       nombre: '',
       edad: '',
     });
 
+    // Estado que almacena la edad en meses del alumno para el test de span de imágenes
     const [ageInMonths, setAgeInMonths] = useState(0);
+
+    // Estado que almacena la edad en años del alumno para el test de span de imágenes
     const [ageNormal, setAgeNormal] = useState(0);
 
+    // Estado que almacena la puntuación del alumno en el test de span de imágenes
     const [points, setPoints] = useState(0);
+
+    // Estado que almacena las puntuaciones transformadas mediante las tablas guía para el test de span de imágenes
     const [processPoints, setProcessPoints] = useState({
       rimse: 0,
       rimsr: 0,
       item: 0
     });
 
+    // Almacena las imágenes para el test de span de imágenes
     const linkImage = {
       arcoiris: spanImg[0].img,
       balde: spanImg[1].img,
@@ -97,6 +128,7 @@ const ScreenProvider = ({children}) => {
       trebol: spanImg[28].img
     }
 
+    // Arreglo que guarda las imágenes del test de span de imágenes en orden para cada pantalla
     const imgSpan = [
       {
         id: 1,

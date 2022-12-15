@@ -6,19 +6,25 @@ import Alert from './Alert';
 
 const Login = () => {
 
+    // Estado que almacena el email y la contraseña para realizar el inicio de sesión en la aplicación
     const [user, setUser] = useState({
         email: '',
         password: '',
     });
+
+    // Estado que guarda los errores de inicio de sesión en caso de que ocurran
     const [error, setError] = useState("");
 
+    // Trae los datos desde "ScreenContext" que se requieren para este archivo
     const {login, resetPassword} = useContext(ScreenContext);
     const navigate = useNavigate();
 
+    // Función que detecta los cambios en los inputs del formulario de inicio de sesión
     const handleChange = ({target: {name, value}}) => {
         setUser({...user, [name]: value});
     };
 
+    // Función que realiza el inicio de sesión de los usuarios en la aplicación web
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
@@ -30,6 +36,7 @@ const Login = () => {
         }
     };
 
+    // Función que permite restablecer la contraseña del usuario en caso de haberla olvidado
     const handleResetPassword = async () => {
         if (!user.email) return setError("¡Por favor ingresa tu correo!");
 
@@ -41,6 +48,7 @@ const Login = () => {
         }
     };
 
+    // Muestra como tal la pantalla de inicio de sesión en la aplicación web
     return(
         <div className={styles.containerForm}>        
             <div className={styles.loginForm}>

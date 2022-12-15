@@ -7,18 +7,24 @@ import { AddResult2 } from '../../utils/database';
 
 const SpanTestEnd = () => {
 
+    // Trae los datos desde "ScreenContext" que se requieren para este archivo
     const {points, ageInMonths, userTest2, ageNormal, user, processPoints} = useContext(ScreenContext);
 
+    // Estado que guarda los resultados que devuelve Python convertidos en puntuación escalar
     const [results, setResults] = useState({});
+
+    // Estado que guarda si ya se han guardado los resultados en firebase
     const [saved, setSaved] = useState(false);
 
     const navigate = useNavigate();
 
+    // Función para navegar a la pantalla principal de la aplicación
     const returnHome = () => {        
         navigate("/");
         navigate(0);  
     };
 
+    // Función que se encarga de llamar al backend para traer los resultados del test de span de imágenes
     const getResults = async () => {
         if (saved) return
         let url = 'https://lionfish-app-nlmgs.ondigitalocean.app/calculate_span_test';
@@ -61,6 +67,7 @@ const SpanTestEnd = () => {
         
     };
 
+    // Función que clasifica la puntuación escalar en el test de span de imágenes
     const getResultsByValue = (puntuacionEscalar) => {
         switch(true) {
             case (puntuacionEscalar >= 18 && puntuacionEscalar <= 19): return "Muy alto";
@@ -73,6 +80,7 @@ const SpanTestEnd = () => {
         }
     };
 
+    // Función que clasifica la secuencia de estímulos en el test de span de imágenes
     const getResultsRimseByValue = (rim) => {
         switch(true) {
             case (rim == 8): return "perfecto";
@@ -86,6 +94,7 @@ const SpanTestEnd = () => {
         }
     };
 
+    // Función que guarda el color según la clasificación de la puntuación escalar en el test de span de imágenes
     const getColorByResultValue = {
         "Muy alto": "#99f7a5",
         "Alto": "#affab8",
@@ -96,6 +105,7 @@ const SpanTestEnd = () => {
         "Muy bajo": "#ff9575",
     }
 
+    // Función que devuelve la interpretación de la puntuación escalar para el test de span de imágenes
     const getAnalysis = (puntuacionEscalar) => {
         switch(true) {            
             case (puntuacionEscalar >= 17 && puntuacionEscalar <= 19): return `El alumno goza de un rendimiento excelente en comparación con los demás estudiantes de ${ageNormal} años, tiene una habilidad superior para identificar la información visual, mantener un completo registro temporal en su memoria y hacer uso de este para solucionar problemas`;
@@ -108,6 +118,7 @@ const SpanTestEnd = () => {
         }
     };
 
+    // Muestra como tal la pantalla de resultados del test de span de imágenes
     return(
         <div className={styles.containerResultsSpan}>
             <div className={styles.resultsWrapperSpan}>

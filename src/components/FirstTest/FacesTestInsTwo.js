@@ -6,6 +6,7 @@ import ScreenContext from '../ScreenContext';
 
 const FacesTestInsTwo = () => {
 
+    // Trae los datos desde "ScreenContext" que se requieren para este archivo
     const {
         userTest,
         setUserTest
@@ -13,15 +14,18 @@ const FacesTestInsTwo = () => {
 
     const navigate = useNavigate();
 
+    // Función para navegar a la pantalla de la prueba del test de percepción de diferencias
     const handleSubmit = (e) => {
         e.preventDefault();
         navigate("/FacesTest");
     };
 
+    // Función que detecta los cambios en los inputs del formulario para el nombre y la edad del alumno
     const handleChange = ({target: {name, value}}) => {
         setUserTest({...userTest, [name]: value});        
     };
 
+    // Muestra como tal la segunda pantalla de instrucciones del test de percepción de diferencias
     return(
         <div className={styles.headerInstructions2}>
             <div className={styles.titleInstructions}>

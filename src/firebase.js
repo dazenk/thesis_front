@@ -6,8 +6,7 @@ import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// La configuración de la aplicación en Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBtR87uIAD5JuBMIavMXpaBvi7TMuHuUuY",
   authDomain: "prueba-tesis-8e65c.firebaseapp.com",
@@ -18,7 +17,7 @@ const firebaseConfig = {
   measurementId: "G-Y3CMD963GP"
 };
 
-// Initialize Firebase
+// Inicializa el servicio de Firebase
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const analytics = getAnalytics(app);

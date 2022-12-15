@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom';
 
 const SpanTestIns = () => {
 
+    // Trae los datos desde "ScreenContext" que se requieren para este archivo
     const {
         imgSpan
     } = useContext(ScreenContext);
 
+    // Muestra como tal la primera pantalla de la primera parte de instrucciones del test de span de imágenes
     return(
         <div className={styles.containerSpan}>
             <div className={styles.titleInsSpan}>

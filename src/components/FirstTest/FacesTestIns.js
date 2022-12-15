@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 const FacesTestIns = () => {
 
+    // Muestra como tal la primera pantalla de instrucciones del test de percepción de diferencias
     return(
         <div className={styles.headerInstructions}>
             <div className={styles.titleInstructions}>

@@ -28,6 +28,7 @@ import taza from "./taza.png";
 import tenis from "./tenis.png";
 import trebol from "./trebol.png";
 
+// Variable que almacena las imágenes para el test de span de imágenes
 var spanImg = [
   {img: arcoiris},
   {img: balde},

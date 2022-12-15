@@ -5,13 +5,17 @@ import { useNavigate } from 'react-router-dom';
 
 const SpanTestInsTwo = () => {
     
+    // Trae los datos desde "ScreenContext" que se requieren para este archivo
     const {
         imgSpan
     } = useContext(ScreenContext);
 
     const navigate = useNavigate();
+
+    // Estado que guarda el tiempo que aparece el item de estímulo en pantalla
     const [time, setTime] = useState(0);
 
+    // Función que reacciona al clic del alumno y le da feedback según la opción que seleccionó en la dinámica de ejemplo de la prueba
     const handleClick = (correcto) => {
         const resultado = document.getElementById('result-text');
         const boton = document.getElementById('button-next-ins');
@@ -36,10 +40,12 @@ const SpanTestInsTwo = () => {
 
     };
 
+    // Función para navegar a la segunda pantalla de la primera parte de instrucciones del test de span de imágenes
     const handleButton = () => {
         navigate("/SpanTestInsThree");
     };
 
+    // Se encarga de sumar segundos al tiempo que aparece el item de estímulo en pantalla
     useEffect(() => {
         const interval = setInterval(() => {
           setTime((oldValue) => {
@@ -57,6 +63,7 @@ const SpanTestInsTwo = () => {
         };
     }, []);
 
+    // Se encarga de ocultar el ítem de estímulo y mostrar los ítems de respuesta una vez hayan pasado 5 segundos
     useEffect(() => {
         if (time == 5) {
             const question = document.getElementById('img-question');
@@ -66,6 +73,7 @@ const SpanTestInsTwo = () => {
         }
     }, [time]);
 
+    // Muestra como tal la dinámica de funcionamiento de la primera parte del test de span de imágenes
     return(
         <div className={styles.containerSpan}>
             <div className={styles.containerImgs}>

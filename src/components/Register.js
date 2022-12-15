@@ -7,19 +7,25 @@ import { AddUser, AddUser2 } from '../utils/database';
 
 const Register = () => {
 
+    // Estado que almacena el email y la contraseña para realizar el registro en la aplicación
     const [user, setUser] = useState({
         email: '',
         password: '',
     });
+
+    // Estado que guarda los errores de registro en caso de que ocurran
     const [error, setError] = useState('');
 
+    // Trae los datos desde "ScreenContext" que se requieren para este archivo
     const {signup} = useContext(ScreenContext);
     const navigate = useNavigate();
 
+    // Función que detecta los cambios en los inputs del formulario de registro
     const handleChange = ({target: {name, value}}) => {
         setUser({...user, [name]: value});
     };
 
+    // Función que realiza el registro de los usuarios en la aplicación web
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -33,6 +39,7 @@ const Register = () => {
         }
     };
 
+    // Muestra como tal la pantalla de registro de usuario en la aplicación web
     return(
         <div className={styles.containerForm}>
             <div className={styles.loginForm}>

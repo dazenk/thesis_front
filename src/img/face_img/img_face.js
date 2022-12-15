@@ -125,6 +125,7 @@ import faceSixtyTwoBad from "./61-1.png";
 import faceSixtyThree from "./62-0.png";
 import faceSixtyThreeBad from "./62-1.png";
 
+// Variable que almacena las imágenes para el test de percepción de diferencias
 var imagenesCaras = [
     {img: faceOne, pos1: "one1", pos2: "one2", pos3: "one3", id1: "1one", id2: "2one", id3: "3one", correct: false},
     {img: faceOneBad, correct: true},

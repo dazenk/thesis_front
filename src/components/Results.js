@@ -6,24 +6,36 @@ import { useNavigate } from 'react-router-dom';
 
 const Results = () => {
 
+    // Trae los datos desde "ScreenContext" que se requieren para este archivo
     const {
         user,
         dataSpan,
         dataCaras
     } = useContext(ScreenContext);
 
+    // Estado que guarda la opción del filtro por edades para mostrar los resultados
     const [selectValue, setSelectValue] = useState("todas");
+
+    // Estado que guarda los resultados que cada alumno obtuvo
     const [data, setData] = useState([]);
+
+    // Estado que guarda la opción del filtro por tipo de test para mostrar los resultados
     const [typeTest, setTypeTest] = useState("caras");
+
+    // Estado que guarda el promedio de puntuación de los usuarios en el test de percepción de diferencias
     const [averageData, setAverageData] = useState({errors: 0, hits: 0, net_hits: 0, ici: 0});
+
+    // Estado que guarda el promedio de puntuación de los usuarios en el test de span de imágenes
     const [averageDataSpan, setAverageDataSpan] = useState({RE: 0, rimse: 0, rimsr: 0});
 
     const navigate = useNavigate();
 
+    // Función para volver a la pantalla principal de la aplicación
     const returnHome = () => {        
         navigate("/");
     };
     
+    // Función que calcula el promedio de las puntuaciones para el test de percepción de diferencias
     const getAverage = (data) => {
         let dataAverage = {errors: 0, hits: 0, net_hits: 0, ici: 0}
         data.forEach(element => {
@@ -41,6 +53,7 @@ const Results = () => {
         return dataAverage;
     }
 
+    // Función que calcula el promedio de las puntuaciones para el test de span de imágenes
     const getAverageSpan = (data) => {
         let dataAverage = {RE: 0, rimse: 0, rimsr: 0}
         data.forEach(element => {
@@ -56,6 +69,7 @@ const Results = () => {
         return dataAverage;
     }
 
+    // Función que clasifica el eneatipo promediado que corresponde a cada puntuación en el test de percepción de diferencias
     const getResultsByValue = (eneatipo) => {
         switch(true) {
             case (eneatipo == 9): return "Muy alto";
@@ -68,6 +82,7 @@ const Results = () => {
         }
     };
 
+    // Función que devuelve la interpretación de los aciertos según el eneatipo promediado para el test de percepción de diferencias
     const getHitAnalysis = (eneatipo) => {
         switch (true) {
             case (eneatipo == 1): return `El grupo de estudiantes logra obtener un número muy bajo aciertos a nivel general`;
@@ -78,6 +93,7 @@ const Results = () => {
         }
     }
 
+    // Función que devuelve la interpretación del rendimiento según el eneatipo promediado para el test de percepción de diferencias
     const getPerformanceAnalysis = (eneatipo) => {
         switch (true) {
             case (eneatipo == 1): return "El rendimiento de los alumnos es muy bajo, poseen una baja capacidad visoperceptiva y atencional, no prestan suficiente atención a los detalles";
@@ -88,6 +104,7 @@ const Results = () => {
         }
     }
 
+    // Función que devuelve la interpretación del índice de control de la impulsividad según el eneatipo promediado para el test de percepción de diferencias
     const getICIAnalysis = (eneatipo) => {
         switch (true) {
             case (eneatipo == 1): return `El grupo de alumnos posee un control de la impulsividad muy por debajo de la media, carecen de control inhibitorio`;
@@ -98,6 +115,7 @@ const Results = () => {
         }
     }
 
+    // Función que devuelve la interpretación de los errores según el eneatipo promediado para el test de percepción de diferencias
     const getErrorAnalysis = (eneatipo) => {
         switch (true) {
             case (eneatipo == 4 && selectValue != "13"): return "El grupo de estudiantes no comete errores";
@@ -110,6 +128,10 @@ const Results = () => {
         }
     }
 
+    /* 
+    Función que devuelve la interpretación del subtipo de comportamiento del alumno según 
+    los eneatipos de aciertos e índice de control de la impulsividad promediados para el test de percepción de diferencias
+     */
     const getHitsxIci = (enHits, enIci) => {
         switch (true) {
             case ((enHits >= 3 && enHits <= 9) && (enIci >= 1 && enIci <= 2)): return(<>Los estudiantes podrían sugerir un subtipo <span>impulsivo</span> de problemas de atención</>);
@@ -119,6 +141,10 @@ const Results = () => {
         }
     }
 
+    /* 
+    Función que devuelve la interpretación del estilo de respuesta del alumno según 
+    los eneatipos de aciertos netos e índice de control de la impulsividad promediados para el test de percepción de diferencias
+     */
     const getNetHitsxIci = (enNHits, enIci) => {
         switch (true) {
             case ((enNHits >= 3 && enNHits <= 9) && (enIci >= 1 && enIci <= 2)): return(<>Los alumnos podrían sugerir un estilo de respuesta <span>eficaz</span> e <span>impulsivo</span></>);
@@ -128,7 +154,7 @@ const Results = () => {
         }
     }
 
-    //SPANTEST
+    // Función que clasifica la puntuación escalar promediada en el test de span de imágenes
     const getResultsByValueSpan = (puntuacionEscalar) => {
         switch(true) {
             case (puntuacionEscalar >= 18 && puntuacionEscalar <= 19): return "Muy alto";
@@ -141,6 +167,7 @@ const Results = () => {
         }
     };
 
+    // Función que devuelve la interpretación de la puntuación escalar promediada para el test de span de imágenes
     const getAnalysisSpan = (puntuacionEscalar) => {
         switch(true) {            
             case (puntuacionEscalar >= 17 && puntuacionEscalar <= 19): return `Los alumnos gozan de un rendimiento excelente, tienen una habilidad superior para identificar la información visual, mantener un completo registro temporal en su memoria y hacer uso de este para solucionar problemas`;
@@ -153,6 +180,7 @@ const Results = () => {
         }
     };
 
+    // Función que clasifica la secuencia de estímulos promediada en el test de span de imágenes
     const getResultsRimseByValue = (rim) => {
         switch(true) {
             case (rim == 8): return "perfecto";
@@ -166,6 +194,7 @@ const Results = () => {
         }
     };
 
+    // Guarda los resultados según el tipo de test
     useEffect( async () => {
         let data = await getUserResults(user.email, selectValue, typeTest);
         setData(data);
@@ -173,6 +202,7 @@ const Results = () => {
         if (typeTest == "span") setAverageDataSpan(getAverageSpan(data))
     }, []);
 
+    // Muestra como tal la pantalla de resumen de resultados en la aplicación web
     return(
         <div className={styles.containerResultsFilter}>
             <div className={styles.titleResults}>

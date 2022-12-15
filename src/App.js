@@ -21,6 +21,10 @@ import SpanTestTwo from "./components/SecondTest/SpanTestTwo";
 import SpanTestEnd from "./components/SecondTest/SpanTestEnd";
 import Results from "./components/Results";
 
+/* 
+Este archivo contiene todas las rutas que componen la aplicación,
+permite configurarlas para navegar entre ellas a través de las pantallas
+ */
 function App() {
   return (
     <div className="App">

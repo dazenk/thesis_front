@@ -5,22 +5,35 @@ import { useNavigate } from 'react-router-dom';
 
 const SpanTestInsFive = () => {
     
+    // Trae los datos desde "ScreenContext" que se requieren para este archivo
     const {
         imgSpan
     } = useContext(ScreenContext);
 
     const navigate = useNavigate();
+
+    // Estado que guarda el tiempo que aparece el item de estímulo en pantalla
     const [time, setTime] = useState(0);
+
+    // Arreglo que guarda el orden correcto en que tienen que ser seleccionadas las respuestas por el alumno
     const correctList = ['item-2', 'item-1'];
+
+    // Arreglo que maneja en qué ítems de respuesta se ha hecho clic
     const selectedList = [];
+
+    // Arreglo que maneja en qué input de los ítems de respuesta se ha hecho clic
     const selectedInputList = [];
+
+    // Estados que guardan los ítems de respuesta que va seleccionando el alumno
     const [listaCorrecta, setListaCorrecta] = useState([]);
     const [listaCorrecta2, setListaCorrecta2] = useState([]);
 
+    // Función para navegar a la segunda pantalla de la dinámica de ejemplo de la segunda parte de instrucciones del test de span de imágenes
     const handleButton = () => {
         navigate("/SpanTestInsSix");
     };
 
+    // Va sumando segundos al tiempo de aparición de los ítems de estímulos en pantalla
     useEffect(() => {
         const interval = setInterval(() => {
           setTime((oldValue) => {
@@ -38,6 +51,7 @@ const SpanTestInsFive = () => {
         };
     }, []);
 
+    // Se encarga de mostrar ls ítems de respuesta y ocultar los ítems de estímulo una vez hayan pasado 6 segundos
     useEffect(() => {
         if (time == 6) {
             const question = document.getElementById('img-question');
@@ -47,6 +61,7 @@ const SpanTestInsFive = () => {
         }
     }, [time]);
 
+    // Compara si el alumno seleccionó en orden correcto o no los ítems de respuesta correspondientes
     useEffect(() => {
         const resultado = document.getElementById('result-text');
         const boton = document.getElementById('button-next-ins');
@@ -64,6 +79,7 @@ const SpanTestInsFive = () => {
 
     }, [listaCorrecta])
 
+    // Función que controla el clic que hizo el alumno encima del ítem de respuesta correspondiente
     const handleClick = (id, idInput) => {
         selectedList.push(id);
         selectedInputList.push(idInput);
@@ -73,6 +89,7 @@ const SpanTestInsFive = () => {
         input.disabled = true;
     }
 
+    // Muestra como tal la primera pantalla de la dinámica de ejemplo de la segunda parte de instrucciones del test de span de imágenes
     return(
         <div className={styles.containerSpan}>
             <div className={styles.containerImgs}>

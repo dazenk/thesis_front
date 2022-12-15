@@ -7,6 +7,7 @@ import { AddResult } from '../../utils/database';
 
 const EndTest = () => {
 
+    // Trae los datos desde "ScreenContext" que se requieren para este archivo
     const {
         hitCount,
         errorCount,
@@ -16,19 +17,36 @@ const EndTest = () => {
         user
     } = useContext(ScreenContext);
 
+    // Estado que guarda los resultados que devuelve Python convertidos en eneatipos
     const [results, setResults] = useState({});
+
+    // Estado que guarda si ya se han guardado los resultados en firebase
     const [saved, setSaved] = useState(false);
 
     const navigate = useNavigate();
 
+    // Función para navegar a la pantalla principal de la aplicación
     const returnHome = () => {        
         navigate("/");
         navigate(0);  
     };
 
+    // Función que se encarga de llamar al backend para traer los resultados del test de percepción de diferencias
     const getResults = async () => {
         if (saved) return
+
+        // Para usar la aplicación (backend) de manera local se puede usar el siguiente endpoint, solo es necesario comentar
+        // las otras URL's y dejar esta activa para hacer pruebas e implementaciones de manera local antes de subirlas
+        // a la nube
+        /* let url = 'https://get-test-results.herokuapp.com/calculate_face_test'; */
+
+        // Este endpoint se usó para mostrar la aplicación de manera funcional, corresponde al backend
+        // en este caso subido en DigitalOcean, el cual se vence a partir del 20 de diciembre de 2022 aproximadamente
         let url = 'https://lionfish-app-nlmgs.ondigitalocean.app/calculate_face_test';
+
+        // Este endpoint corresponde al backend subido en Heroku, actualmente no se encuentra funcionando
+        // porque hay que pagar 5 dólares para mantenerlo en la nube
+        /* let url = 'https://get-test-results.herokuapp.com/calculate_face_test'; */
 
         try {            
             let {data, status} = await axios.post(url, {
@@ -71,6 +89,7 @@ const EndTest = () => {
         
     };
 
+    // Función que clasifica el eneatipo que corresponde a cada puntuación en el test de percepción de diferencias
     const getResultsByValue = (eneatipo) => {
         switch(true) {
             case (eneatipo == 9): return "Muy alto";
@@ -83,6 +102,7 @@ const EndTest = () => {
         }
     };
 
+    // Función que guarda el color según la clasificación del eneatipo que corresponde a cada puntuación en el test de percepción de diferencias
     const getColorByResultValue = {
         "Muy alto": "#99f7a5",
         "Alto": "#affab8",
@@ -93,6 +113,7 @@ const EndTest = () => {
         "Muy bajo": "#ff9575",
     }
 
+    // Función que devuelve la interpretación de los aciertos según el eneatipo para el test de percepción de diferencias
     const getHitAnalysis = (eneatipo) => {
         switch (true) {
             case (eneatipo == 1): return `Posee muy pocos aciertos en comparación con la media de los alumnos de ${userTest.edad} años`;
@@ -103,6 +124,7 @@ const EndTest = () => {
         }
     }
 
+    // Función que devuelve la interpretación del rendimiento según el eneatipo para el test de percepción de diferencias
     const getPerformanceAnalysis = (eneatipo) => {
         switch (true) {
             case (eneatipo == 1): return "El rendimiento del alumno es muy bajo, posee una baja capacidad visoperceptiva y atencional, no presta suficiente atención a los detalles";
@@ -113,6 +135,7 @@ const EndTest = () => {
         }
     }
 
+    // Función que devuelve la interpretación del índice de control de la impulsividad según el eneatipo para el test de percepción de diferencias
     const getICIAnalysis = (eneatipo) => {
         switch (true) {
             case (eneatipo == 1): return `Su control de la impulsividad está muy por debajo de la media de los alumnos con ${userTest.edad} años, carece de control inhibitorio`;
@@ -123,6 +146,7 @@ const EndTest = () => {
         }
     }
 
+    // Función que devuelve la interpretación de los errores según el eneatipo para el test de percepción de diferencias
     const getErrorAnalysis = (eneatipo) => {
         switch (true) {
             case (eneatipo == 4 && userTest.edad != "13"): return "El alumno no comete errores";
@@ -135,6 +159,10 @@ const EndTest = () => {
         }
     }
 
+    /* 
+    Función que devuelve la interpretación del subtipo de comportamiento del alumno según 
+    los eneatipos de aciertos e índice de control de la impulsividad para el test de percepción de diferencias
+     */
     const getHitsxIci = (enHits, enIci) => {
         switch (true) {
             case ((enHits >= 3 && enHits <= 9) && (enIci >= 1 && enIci <= 2)): return(<>El alumno podría sugerir un subtipo <span>impulsivo</span> de problemas de atención</>);
@@ -144,6 +172,10 @@ const EndTest = () => {
         }
     }
 
+    /* 
+    Función que devuelve la interpretación del estilo de respuesta del alumno según 
+    los eneatipos de aciertos netos e índice de control de la impulsividad para el test de percepción de diferencias
+     */
     const getNetHitsxIci = (enNHits, enIci) => {
         switch (true) {
             case ((enNHits >= 3 && enNHits <= 9) && (enIci >= 1 && enIci <= 2)): return(<>El estudiante podría sugerir un estilo de respuesta <span>eficaz</span> e <span>impulsivo</span></>);
@@ -153,6 +185,7 @@ const EndTest = () => {
         }
     }
 
+    // Muestra como tal la pantalla de resultados del test de percepción de diferencias
     return(
         <div className={styles.containerResults}>
             <div className={styles.resultsWrapper}>

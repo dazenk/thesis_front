@@ -1,6 +1,7 @@
 import { updateDoc, arrayUnion, doc, setDoc, getDoc } from "firebase/firestore";
 import {db} from '../firebase';
    
+    // Función que se encarga de guardar los resultados en firebase del test de percepción de diferencias
     export const AddResult = async (idCollection ,valueCollection) => {        
 
         try {                    
@@ -10,12 +11,12 @@ import {db} from '../firebase';
                 results: arrayUnion(valueCollection)
             });
 
-            /* console.log("Document written with ID: ", userCollection.id); */
           } catch (e) {
             console.error("Error adding document: ", e);
           }
     }    
 
+    // Función que se encarga de crear los usuarios (evaluadores) del test de percepción de diferencias
     export const AddUser = async (email) => {
 
         try {
@@ -27,11 +28,11 @@ import {db} from '../firebase';
 
     }
 
+    // Función que trae los datos de los estudiantes que realizaron los respectivos test
     export const getUserResults = async (email, age, database) => {
         let currentDatabase = database ? database == "caras" ? "users" : "users_span" : "users";
         const docRef = doc(db, currentDatabase, email);
         const docSnap = await getDoc(docRef);
-        /* console.log(docSnap.data()) */
         if (docSnap.data() != undefined) {
             let { results } = docSnap.data();
             let answer = results;
@@ -40,15 +41,10 @@ import {db} from '../firebase';
             }
             return answer;
         }
-        /* let { results } = docSnap.data(); */
-        /* let answer = results; */
-        /* if (age && typeof age == "number") {
-            answer = answer.filter(r => r.studentData.age == age);
-        } */
-        /* return answer; */
         return [];
     }
 
+    // Función que se encarga de guardar los resultados en firebase del test de span de imágenes
     export const AddResult2 = async (idCollection ,valueCollection) => {        
 
         try {                    
@@ -58,12 +54,12 @@ import {db} from '../firebase';
                 results: arrayUnion(valueCollection)
             });
 
-            /* console.log("Document written with ID: ", userCollection.id); */
           } catch (e) {
             console.error("Error adding document: ", e);
           }
     }    
 
+    // Función que se encarga de crear los usuarios (evaluadores) del test de span de imágenes
     export const AddUser2 = async (email) => {
 
         try {

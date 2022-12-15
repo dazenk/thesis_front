@@ -9,8 +9,10 @@ const Home = () => {
 
       const navigate = useNavigate();
 
+      // Trae los datos desde "ScreenContext" que se requieren para este archivo
       const { user, logout, dataCaras, setDataCaras, dataSpan, setDataSpan } = useContext(ScreenContext);
       
+      // Función que se encarga de cerrar la sesión al usuario si se hace el respectivo llamado
       const handleLogout = async () => {
         try {
             await logout();
@@ -19,12 +21,14 @@ const Home = () => {
         }        
       };
 
+      // Función que impide navegar al apartado de resultados en caso de que no existan datos en firebase
       const handleClick = () => {
         if (dataCaras != undefined || dataSpan != undefined) {
             navigate("/Results");
         }        
       };
 
+      // Trae y guarda en estados los resultados de ambos test
       useEffect( async () => {
         let dataCaras = await getUserResults(user.email, "todas", "caras");
         let dataSpan = await getUserResults(user.email, "todas", "span");
@@ -32,6 +36,7 @@ const Home = () => {
         setDataSpan(dataSpan);
       }, [])      
 
+    // Muestra como tal la pantalla de bienvenida de la aplicación web
     return(
         <div className={styles.headerScreen}>
             <p className={styles.welcomeTitle}>Te damos la bienvenida {user.displayName || user.email}</p>

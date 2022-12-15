@@ -6,6 +6,7 @@ import styles from "./FacesTest.module.css";
 
 const FacesTest = () => {
 
+    // Trae los datos desde "ScreenContext" que se requieren para este archivo
     const {
         hitCount,
         setHitCount,
@@ -20,6 +21,7 @@ const FacesTest = () => {
 
     const navigate = useNavigate(); 
 
+    // Se encarga de ir restando segundos al tiempo de 3 minutos que dura el test de percepción de diferencias
     useEffect(() => {
         const interval = setInterval(() => {
           setTotalTimeT2((oldValue) => {
@@ -37,7 +39,9 @@ const FacesTest = () => {
         };
       }, []);
 
+      // Se encarga de redirigir al alumno a la pantalla de resultados del test de percepción de diferencias
       useEffect(() => {
+        // Si se le acaba el tiempo es redirigido
         if (totalTimeT2 == 0) {            
             if ((hitCount + errorCount) == 0) {
                 setIci(0);
@@ -47,6 +51,7 @@ const FacesTest = () => {
             }
             navigate("/EndTest", { replace: true });
         }
+        // Si selecciona los 60 elementos es redirigido
         if (totalCount == 60) {
             if ((hitCount + errorCount) == 0) {
                 setIci(0);
@@ -58,6 +63,7 @@ const FacesTest = () => {
         }
       }, [totalTimeT2]);
 
+    // Función que se encarga de deshabilitar las caras para que el alumno no pueda cambiar de respuesta
     const deshabilitar = (id, i, idCorrect) => {
         if (id == imagenesCaras[i].pos1) {
             const el1 = document.getElementById(imagenesCaras[i].id1);
@@ -99,6 +105,7 @@ const FacesTest = () => {
         setTotalCount(currentTotal => currentTotal + 1);        
     };
 
+    // Muestra como tal la pantalla de la prueba del test de percepción de diferencias
     return(
         <div className={styles.headerContainer}>
             <div className={styles.wrapper}>
