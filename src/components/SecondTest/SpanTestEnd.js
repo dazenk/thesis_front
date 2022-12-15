@@ -26,8 +26,20 @@ const SpanTestEnd = () => {
 
     // Función que se encarga de llamar al backend para traer los resultados del test de span de imágenes
     const getResults = async () => {
-        if (saved) return
+        if (saved) return        
+
+        // Para usar la aplicación (backend) de manera local se puede usar el siguiente endpoint, solo es necesario comentar
+        // las otras URL's y dejar esta activa para hacer pruebas e implementaciones de manera local antes de subirlas
+        // a la nube
+        /* let url = 'http://127.0.0.1:8000/calculate_span_test'; */
+
+        // Este endpoint se usó para mostrar la aplicación de manera funcional, corresponde al backend
+        // en este caso subido en DigitalOcean, el cual se vence a partir del 20 de diciembre de 2022 aproximadamente
         let url = 'https://lionfish-app-nlmgs.ondigitalocean.app/calculate_span_test';
+
+        // Este endpoint corresponde al backend subido en Heroku, actualmente no se encuentra funcionando
+        // porque hay que pagar 5 dólares para mantenerlo en la nube
+        /* let url = 'https://get-test-results.herokuapp.com/calculate_span_test'; */
 
         try {            
             let {data, status} = await axios.post(url, {
